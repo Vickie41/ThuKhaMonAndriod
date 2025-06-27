@@ -1,0 +1,49 @@
+# Build folders
+bin/
+obj/
+build/
+
+# User-specific folders
+.vs/
+.vscode/
+
+# MAUI generated files
+platforms/
+.idea/
+
+# Log files
+*.log
+
+# Android build artifacts
+*.apk
+*.ap_
+
+# iOS build artifacts
+*.xcuserstate
+*.xcworkspace
+*.xcodeproj
+*.pbxuser
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+desktop.ini
+
+# Rider / JetBrains IDEs
+.idea/
+
+# Maui auto-generated resources
+*.tlog
+*.cache
+*.dbmdl
+
+# Backup files
+*.bak
+
+# Optional: ignore secrets, but you asked NOT to ignore this
+# myapp.keystore     <-- Do NOT uncomment this
