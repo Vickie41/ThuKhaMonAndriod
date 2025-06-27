@@ -1,0 +1,81 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodel="clr-namespace:TKMApp.ViewModels"
+             xmlns:local="clr-namespace:TKMApp.Views"
+             xmlns:converters="clr-namespace:TKMApp.Converters"
+             x:Class="TKMApp.Views.PrescriptionPage"
+             x:DataType="viewmodel:PrescriptionViewModel">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:IndexConverter x:Key="IndexConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+            <Label Text="Add Prescription" 
+                   FontSize="16"
+                   FontAttributes="Bold"
+                   TextColor="{StaticResource Primary}"
+                   HorizontalOptions="Center"/>
+
+            <Frame>
+                <CollectionView x:Name="medCollection"
+                              ItemsSource="{Binding MedicineItems}"
+                              EmptyView="No medicines added">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="viewmodel:MedicineItem">
+                            <Frame Margin="0,0,0,10">
+                                <VerticalStackLayout Spacing="10">
+                                    <Label Text="{Binding ., 
+                                              Converter={StaticResource IndexConverter},
+                                              ConverterParameter={x:Reference medCollection}}"
+                                           FontAttributes="Bold"/>
+                                    <Entry Text="{Binding MedicineName}" 
+                                           Placeholder="Enter medicine name"/>
+
+                                    <Grid ColumnDefinitions="*,*">
+                                        <VerticalStackLayout Grid.Column="0">
+                                            <Label Text="Dose"/>
+                                            <Picker ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type local:PrescriptionPage}}, 
+                                                                 Path=BindingContext.DoseOptions}"
+                                                    SelectedItem="{Binding Dose}"
+                                                    Title="Select dose"/>
+                                        </VerticalStackLayout>
+
+                                        <VerticalStackLayout Grid.Column="1">
+                                            <Label Text="Duration"/>
+                                            <Picker ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type local:PrescriptionPage}}, 
+                                                                 Path=BindingContext.DurationOptions}"
+                                                    SelectedItem="{Binding Duration}"
+                                                    Title="Select duration"/>
+                                        </VerticalStackLayout>
+                                    </Grid>
+                                </VerticalStackLayout>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Frame>
+
+            <Button Text="+ Add Medicine" 
+                    Command="{Binding AddMedicineCommand}"
+                    BackgroundColor="{StaticResource Primary}"
+                    HorizontalOptions="Start"
+                    WidthRequest="200"/>
+
+            <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+                <Button Text="Save Prescription" 
+                        Command="{Binding SavePrescriptionCommand}"
+                        BackgroundColor="{StaticResource Success}"
+                        WidthRequest="180"/>
+
+                <Button Text="Cancel" 
+        Command="{Binding CancelCommand}"
+        BackgroundColor="{StaticResource Secondary}"
+        WidthRequest="120"/>
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

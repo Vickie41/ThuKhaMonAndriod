@@ -1,0 +1,149 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TKMApp.Views.AddPatientPage"
+             xmlns:viewmodel="clr-namespace:TKMApp.ViewModels"
+             xmlns:behaviors="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:converters="clr-namespace:TKMApp.Converters"
+             x:DataType="viewmodel:AddPatientViewModel"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
+    
+    <ContentPage.Resources>
+        <converters:NullableIntConverter x:Key="IntConverter"/>
+        <converters:NullableDecimalConverter x:Key="DecimalConverter"/>
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+            <!-- Personal Information Card -->
+            <Frame>
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Personal Information" 
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource Primary}"/>
+
+                    <!-- Name -->
+                    <Label Text="Full Name *"/>
+                    <Entry Text="{Binding Name}" 
+                           Placeholder="Enter full name"/>
+
+                    <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto">
+                        <!-- Age -->
+                        <VerticalStackLayout Grid.Column="0" Grid.Row="0">
+                            <Label Text="Age"/>
+                            <Entry Text="{Binding Age, Converter={StaticResource IntConverter}}" 
+                                   Keyboard="Numeric"
+                                   Placeholder="Age"/>
+                        </VerticalStackLayout>
+
+                        <!-- Gender -->
+                        <!--<VerticalStackLayout Grid.Column="1" Grid.Row="0">
+                            <Label Text="Gender"/>
+                            <Picker Title="Select gender"
+                                            ItemsSource="{Binding Genders}"
+                                            SelectedItem="{Binding Gender}">            
+                                <Picker.Behaviors>
+                                    <toolkit:EventToCommandBehavior 
+                                                EventName="SelectedIndexChanged"
+                                                Command="{Binding GenderSelectedCommand}"/>     
+                                </Picker.Behaviors>
+                            </Picker>
+                        </VerticalStackLayout>-->
+                        <VerticalStackLayout Grid.Column="1" Grid.Row="0">
+                            <Label Text="Gender"/>
+                            <Picker Title="Select gender"
+            ItemsSource="{Binding Genders}"
+            SelectedItem="{Binding Gender, Mode=TwoWay}"/>
+                        </VerticalStackLayout>
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Vital Signs Card -->
+            <Frame>
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Vital Signs" 
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource Primary}"/>
+
+                    <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto">
+                        <!-- Blood Pressure -->
+                        <VerticalStackLayout Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2">
+                            <Label Text="Blood Pressure (mmHg)"/>
+                            <HorizontalStackLayout Spacing="10">
+                                <Entry Text="{Binding SystolicBP, Converter={StaticResource IntConverter}}" 
+                                       Keyboard="Numeric"
+                                       Placeholder="Systolic"
+                                       WidthRequest="100"/>
+                                <Label Text="/" VerticalOptions="Center"/>
+                                <Entry Text="{Binding DiastolicBP, Converter={StaticResource IntConverter}}" 
+                                       Keyboard="Numeric"
+                                       Placeholder="Diastolic"
+                                       WidthRequest="100"/>
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+
+                        <!-- Pulse -->
+                        <VerticalStackLayout Grid.Column="0" Grid.Row="1">
+                            <Label Text="Pulse Rate (bpm)"/>
+                            <Entry Text="{Binding PulseRate, Converter={StaticResource IntConverter}}" 
+                                   Keyboard="Numeric"
+                                   Placeholder="Pulse"/>
+                        </VerticalStackLayout>
+
+                        <!-- Temperature -->
+                        <VerticalStackLayout Grid.Column="1" Grid.Row="1">
+                            <Label Text="Temperature (°F)"/>
+                            <Entry Text="{Binding Temperature, Converter={StaticResource DecimalConverter}}" 
+                                   Keyboard="Numeric"
+                                   Placeholder="Temp"/>
+                        </VerticalStackLayout>
+
+                        <!-- RBS -->
+                        <VerticalStackLayout Grid.Column="0" Grid.Row="2">
+                            <Label Text="RBS (mg/dL)"/>
+                            <Entry Text="{Binding RBS, Converter={StaticResource IntConverter}}" 
+                                   Keyboard="Numeric"
+                                   Placeholder="RBS"/>
+                        </VerticalStackLayout>
+
+                        <!-- Visit Date -->
+                        <VerticalStackLayout Grid.Column="1" Grid.Row="2">
+                            <Label Text="Visit Date"/>
+                            <DatePicker Date="{Binding VisitDate}" 
+                                        Format="d"
+                                        MinimumDate="01/01/2000"/>
+                        </VerticalStackLayout>
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Clinical Notes Card -->
+            <Frame>
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Clinical Notes" 
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource Primary}"/>
+                    <Editor Text="{Binding Notes}" 
+                            HeightRequest="100"
+                            Placeholder="Enter clinical notes"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Action Buttons -->
+            <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+                <Button Text="Save Patient" 
+                        Command="{Binding SavePatientCommand}"
+                        BackgroundColor="{StaticResource Success}"
+                        WidthRequest="180"/>
+
+                <Button Text="Cancel" 
+                        Command="{Binding CancelCommand}"
+                        BackgroundColor="{StaticResource Secondary}"
+                        WidthRequest="120"/>
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

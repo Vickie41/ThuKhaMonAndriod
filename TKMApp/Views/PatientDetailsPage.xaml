@@ -1,0 +1,171 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TKMApp.Views.PatientDetailsPage"
+             Title="Patient Details"
+             xmlns:viewmodel="clr-namespace:TKMApp.ViewModels"
+             xmlns:model="clr-namespace:TKMApp.Models"
+             x:DataType="viewmodel:PatientDetailsViewModel">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20">
+            <!-- Header -->
+            <Label Text="PATIENT DETAILS" 
+                   FontSize="20" 
+                   FontAttributes="Bold" 
+                   HorizontalOptions="Center"
+                   TextColor="{StaticResource Primary}"/>
+
+            <!-- Patient Info Card -->
+            <Border Stroke="{StaticResource Primary}"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 10"
+                    Padding="15"
+                    BackgroundColor="{StaticResource LightBackground}">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Patient Information" 
+                           FontSize="16" 
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource Primary}"/>
+
+                    <Grid ColumnDefinitions="Auto,*" 
+                          ColumnSpacing="10"
+                          RowDefinitions="Auto,Auto,Auto,Auto"
+                          RowSpacing="8">
+                        <!-- Name -->
+                        <Label Text="Name:" 
+                               Grid.Column="0" Grid.Row="0"
+                               FontAttributes="Bold"/>
+                        <Label Text="{Binding Patient.Name}" 
+                               Grid.Column="1" Grid.Row="0"/>
+
+                        <!-- Age -->
+                        <Label Text="Age:" 
+                               Grid.Column="0" Grid.Row="1"
+                               FontAttributes="Bold"/>
+                        <Label Text="{Binding Patient.Age}" 
+                               Grid.Column="1" Grid.Row="1"/>
+
+                        <!-- Gender -->
+                        <Label Text="Gender:" 
+                               Grid.Column="0" Grid.Row="2"
+                               FontAttributes="Bold"/>
+                        <Label Text="{Binding Patient.Gender}" 
+                               Grid.Column="1" Grid.Row="2"/>
+
+                        <!-- Visit Date -->
+                        <Label Text="Visit Date:" 
+                               Grid.Column="0" Grid.Row="3"
+                               FontAttributes="Bold"/>
+                        <Label Text="{Binding Patient.VisitDate, StringFormat='{0:dd/MM/yyyy}'}" 
+                               Grid.Column="1" Grid.Row="3"/>
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Vital Signs Card -->
+            <Border Stroke="{StaticResource Primary}"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 10"
+                    Padding="15"
+                    BackgroundColor="{StaticResource LightBackground}">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Vital Signs" 
+                           FontSize="16" 
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource Primary}"/>
+
+                    <Grid ColumnDefinitions="Auto,*" 
+                          ColumnSpacing="10"
+                          RowDefinitions="Auto,Auto,Auto,Auto"
+                          RowSpacing="8">
+                        <!-- Blood Pressure -->
+                        <Label Text="Blood Pressure:" 
+                               Grid.Column="0" Grid.Row="0"
+                               FontAttributes="Bold"/>
+                        <Label Text="{Binding Patient.SystolicBP, StringFormat='{0}/{1}', 
+                                  ConverterParameter={Binding Patient.DiastolicBP}}" 
+                               Grid.Column="1" Grid.Row="0"/>
+
+                        <!-- Pulse -->
+                        <Label Text="Pulse Rate:" 
+                               Grid.Column="0" Grid.Row="1"
+                               FontAttributes="Bold"/>
+                        <Label Text="{Binding Patient.PulseRate, StringFormat='{0} bpm'}" 
+                               Grid.Column="1" Grid.Row="1"/>
+
+                        <!-- Temperature -->
+                        <Label Text="Temperature:" 
+                               Grid.Column="0" Grid.Row="2"
+                               FontAttributes="Bold"/>
+                        <Label Text="{Binding Patient.Temperature, StringFormat='{0:0.0}°C'}" 
+                               Grid.Column="1" Grid.Row="2"/>
+
+                        <!-- RBS -->
+                        <Label Text="RBS:" 
+                               Grid.Column="0" Grid.Row="3"
+                               FontAttributes="Bold"/>
+                        <Label Text="{Binding Patient.RBS, StringFormat='{0} mg/dL'}" 
+                               Grid.Column="1" Grid.Row="3"/>
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Prescriptions Card -->
+            <Border Stroke="{StaticResource Primary}"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 10"
+                    Padding="15"
+                    BackgroundColor="{StaticResource LightBackground}">
+                <VerticalStackLayout Spacing="10">
+                    <HorizontalStackLayout>
+                        <Label Text="Prescriptions" 
+                               FontSize="16" 
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource Primary}"/>
+                        <Button Text="+ Add Prescription" 
+                                Command="{Binding AddPrescriptionCommand}"
+                                HorizontalOptions="End"
+                                BackgroundColor="{StaticResource Primary}"
+                                TextColor="White"
+                                Padding="10,0"/>
+                    </HorizontalStackLayout>
+
+                    <CollectionView ItemsSource="{Binding Prescriptions}"
+                                  EmptyView="No prescriptions found"
+                                  SelectionMode="None">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="model:Prescription">
+                                <Border Stroke="{StaticResource Secondary}"
+                                        StrokeThickness="1"
+                                        StrokeShape="RoundRectangle 5"
+                                        Padding="10"
+                                        Margin="0,0,0,10">
+                                    <Grid ColumnDefinitions="*,Auto,Auto"
+                                          ColumnSpacing="10">
+                                        <Label Text="{Binding MedicineName}" 
+                                               FontAttributes="Bold"
+                                               VerticalOptions="Center"/>
+                                        <Label Text="{Binding Dose}" 
+                                               Grid.Column="1"
+                                               VerticalOptions="Center"/>
+                                        <Label Text="{Binding Duration}" 
+                                               Grid.Column="2"
+                                               VerticalOptions="Center"/>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Back Button -->
+            <Button Text="Back to Patients" 
+                    Command="{Binding BackCommand}"
+                    HorizontalOptions="Center"
+                    BackgroundColor="{StaticResource Secondary}"
+                    TextColor="White"
+                    WidthRequest="200"/>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
